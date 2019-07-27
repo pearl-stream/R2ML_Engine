@@ -21,3 +21,8 @@ Please make sure to update tests as appropriate.
 ```
 docker-compose -f docker-my-sql.yml up
 ```
+
+## Connect to mysql when docker is running:
+```
+mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development
+```
