@@ -16,3 +16,19 @@ Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Start Docker with Database
+
+```
+docker-compose -f docker-my-sql.yml up
+```
+
+## Connect to mysql when docker is running:
+```
+mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development
+```
+
+## Fill database with sql script
+```
+mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development < python/sql/fillDatabases.sql 
+```
