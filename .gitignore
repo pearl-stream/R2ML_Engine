@@ -136,3 +136,8 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+#####################
+# Our Virtualenv folder
+#####################
+r2ml/
