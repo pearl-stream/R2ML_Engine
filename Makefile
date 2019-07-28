@@ -14,6 +14,13 @@ endif
 	@echo
 	@echo To activate virtual environment please run: source r2ml/bin/activate
 	@echo To deactive virtual environment enter: deactivate
+	@echo After activating the environment run \'make setup_env\' to install necessary python libs
+
+setup_env:
+	pip install -r requirements.txt
+
+freeze_env:
+	pip freeze -l > requirements.txt
 
 setup_docker:
 ifeq ($(OS_NAME), linux)
