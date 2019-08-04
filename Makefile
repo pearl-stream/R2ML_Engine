@@ -1,5 +1,6 @@
 OS_NAME := $(shell uname -s | tr A-Z a-z)
 IP=127.0.0.1
+MACHINE := $$(docker-machine env default)
 
 setup:
 ifeq ($(OS_NAME),linux)
@@ -10,9 +11,9 @@ ifeq ($(OS_NAME),linux)
 	sudo apt install mysql-client
 else
 	brew install pyenv-virtualenv
-	export LDFLAGS="${LDFLAGS} -L /usr/local/opt/zlib/lib"
-	export CPPFLAGS="${CPPFLAGS} -I /usr/local/opt/zlib/include"
-	export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
+	$(eval export LDFLAGS="${LDFLAGS} -L /usr/local/opt/zlib/lib")
+	$(eval export CPPFLAGS="${CPPFLAGS} -I /usr/local/opt/zlib/include")
+	$(eval export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig")
 	
 	brew install zlib
 	pyenv install 3.5.0
@@ -45,8 +46,9 @@ else
 endif
 
 start_docker:
-ifeq ($(OS_NAME),linux)
-	export COMPOSE_TLS_VERSION=TLSv1_2
+ifeq ($(OS_NAME),darwin)
+	$(eval ${MACHINE})
+	echo export COMPOSE_TLS_VERSION=TLSv1_2
 endif
 	docker-compose -f docker/docker-my-sql.yml up
 	@echo
