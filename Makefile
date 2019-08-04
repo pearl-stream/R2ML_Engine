@@ -1,4 +1,5 @@
 OS_NAME := $(shell uname -s | tr A-Z a-z)
+IP=127.0.0.1
 
 setup:
 ifeq ($(OS_NAME),linux)
@@ -9,12 +10,19 @@ ifeq ($(OS_NAME),linux)
 	sudo apt install mysql-client
 else
 	brew install pyenv-virtualenv
-	brew install python3.5
+	export LDFLAGS="${LDFLAGS} -L /usr/local/opt/zlib/lib"
+	export CPPFLAGS="${CPPFLAGS} -I /usr/local/opt/zlib/include"
+	export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
+	
+	brew install zlib
+	pyenv install 3.5.0
 	brew install docker 
 	brew install docker-compose
 	brew install mysql-client
+	pip3 install virtualenv
+	virtualenv -p python3 ~/r2ml
 endif
-
+	#pyenv virtualenv r2ml -p 3.5
 	virtualenv r2ml -p python3.5
 	@echo
 	@echo
@@ -37,10 +45,14 @@ else
 endif
 
 start_docker:
+ifeq ($(OS_NAME),linux)
+	export COMPOSE_TLS_VERSION=TLSv1_2
+endif
 	docker-compose -f docker/docker-my-sql.yml up
 	@echo
 	@echo
 	@echo To setup database run in another terminal: make fill_db
 
 fill_db:
-	mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development < python/sql/fillDatabases.sql
+	mysql -h $(IP) -P 3306 -u root -D mysql-development < python/sql/fillDatabases.sql
+
