@@ -1,13 +1,9 @@
-package Services;
+package services;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-import java.util.Set;
-
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
 
 /**
  * Created by freddy on 15.10.17.
