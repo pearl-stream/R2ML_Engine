@@ -13,15 +13,7 @@
     ].
 
 <http://www.test.com/TriplesMap2>
-    rr:logicalTable [ rr:sqlQuery """
-
-        SELECT EMP.*, (CASE JOB
-            WHEN 'CLERK' THEN 'general-office'
-            WHEN 'NIGHTGUARD' THEN 'security'
-            WHEN 'ENGINEER' THEN 'engineering'
-        END) ROLE FROM EMP
-
-        """ ];
+    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
     ];
