@@ -1,5 +1,7 @@
 ''' This module holds SPARQL queries needed to parse an R2RML file. '''
 
+
+
 #Prefix of the r2rml namespace
 prefix = "PREFIX rr: <http://www.w3.org/ns/r2rml#> \n"
 
@@ -65,3 +67,46 @@ query1 += "  ?triplesMap rr:predicateObjectMap ?predicateObjectBlank. \n"
 query1 += "  ?predicateObjectBlank rr:predicate ?predicate. \n"
 query1 += "  ?predicateObjectBlank rr:ObjectMap ?ObjectBlank. \n"
 query1 += "  ?ObjectBlank rr:template ?ObjectTemplate. \n}"
+
+
+###############################################################
+################# Freddy Test 23.11.19 ########################
+###############################################################
+
+allTabelStatementsDict = {'tableTypeTemplate' : typeTableTemplate, 'typeTableColumn' : typeTableColumn}
+allTriples = []
+for key in allTableStatementsDict:
+  sparqlQuery = allTableStatementsDict[key]
+  rows = exeucteSparqlQuery(sparqlQuery)
+  result = returnRightFunc(key, rows)
+  allTriples.append(result)
+sortBySQLTale(allTriples)
+for x in sortTriplesRight:
+  crateTriple(x)
+
+
+def returnRightFunct(queryType, rows):
+  if queryType == 'tableTypeTemplate':
+    return handleQuery1(rows)
+  elif queryType == 'typeTableColumn':
+    return handleQuery2(query)
+  #[...]
+
+
+def handleQuery2(rows):
+  triple_list = []
+  for (sqlTable, template, class_n) in sparqlResult:
+	t_n = AbstractTriple(sqlTable, ROW,  "rdf:type", class_n)
+       tripe_list.append(t_n)
+  return triple_list
+
+class AbstractTriple:
+	def __init__(self, sql,  subject, predicate, object):
+		self.sql = sql
+		self.subject = subject
+		self.predicate = predicate
+		self.object = object
+
+
+
+

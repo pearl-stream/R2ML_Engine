@@ -33,7 +33,7 @@ WHERE{
   UNION                                            #use UNION in because only one of ?tableName and ?sqlQuery can be matche
   {?logicalTableBlank rr:sqlQuery ?sqlQuery}       #match sql Query as source relation
   ?tripleMap rr:subjectMap ?subjectMapBlank        #match blank node of subject map
-  {?subjectMapBlank rr:template ?subjectTemplate}  
+  {?subjectMapBlank rr:template ?subjectTemplate}
   UNION                                            #match subjectTemplate and subjectConstant and create union because only one can match
   {?subjectMapBlank rr:constant ?subjectConstant}
   OPTIONAL                                         #?class is optional because a subjectmap does not require a class
@@ -53,3 +53,4 @@ WHERE{
 
 result = graph.query(tripleMapQuery) #Execute sparql query
 prettyPrintResult(result)
+print(type(result))
