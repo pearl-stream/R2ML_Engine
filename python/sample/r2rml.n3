@@ -1,0 +1,35 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+
+<http://www.test.com/TriplesMap1>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class ex:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:name;
+        rr:objectMap [ rr:column "ENAME" ];
+    ].
+
+<http://www.test.com/TriplesMap2>
+    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class ex:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:role;
+        rr:objectMap [ rr:template "http://data.example.com/roles/{ROLE}" ];
+    ].
+
+  <http://www.test.com/TriplesMap3>
+        rr:logicalTable [ rr:tableName "Student" ];
+        rr:subjectMap [
+            rr:template "http://data.example.com/employee/{MatrNr}";
+            rr:class ex:Student;
+        ];
+        rr:predicateObjectMap [
+            rr:predicate ex:name;
+            rr:objectMap [ rr:column "Lastname" ];
+        ].
