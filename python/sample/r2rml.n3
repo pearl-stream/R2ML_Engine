@@ -1,6 +1,19 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
 @prefix ex: <http://example.com/ns#>.
 
+
+<http://www.test.com/TriplesMap0>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:column "EMPURL";
+        rr:class ex:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:name;
+        rr:objectMap [ rr:column "ENAME" ];
+    ].
+
+
 <http://www.test.com/TriplesMap1>
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
@@ -33,3 +46,25 @@
             rr:predicate ex:name;
             rr:objectMap [ rr:column "Lastname" ];
         ].
+
+<http://www.test.com/TriplesMap4>
+    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:subjectMap [
+        rr:column "EMPURL";
+        rr:class ex:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:name;
+        rr:objectMap [ rr:column "ENAME" ];
+    ].
+
+<http://www.test.com/TriplesMap5>
+    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:subjectMap [
+        rr:constant "http://www.constant.com";
+        rr:class ex:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:name;
+        rr:objectMap [ rr:column "ENAME" ];
+    ].
