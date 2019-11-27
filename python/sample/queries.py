@@ -12,7 +12,7 @@ class R2RMLqueries(Enum):
   #### QUERIES FOR TRIPLES OF FORM subject rdf:type class   #####
   ###############################################################
   ###############################################################
-
+ 
   typeTableTemplate  = prefix + """
                        SELECT ?tableName ?subjectTemplate ?class WHERE {
                        ?triplesMap rr:logicalTable ?logicalTableBlank.
@@ -70,5 +70,3 @@ class R2RMLqueries(Enum):
 #  query1 += "  ?predicateObjectBlank rr:predicate ?predicate. \n"
 #  query1 += "  ?predicateObjectBlank rr:ObjectMap ?ObjectBlank. \n"
 #  query1 += "  ?ObjectBlank rr:template ?ObjectTemplate. \n}"
-
-
