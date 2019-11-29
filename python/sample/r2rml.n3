@@ -3,7 +3,7 @@
 
 
 <http://www.test.com/TriplesMap0>
-    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:logicalTable [ rr:tableName "student" ];
     rr:subjectMap [
         rr:column "EMPURL";
         rr:class ex:Employee;
@@ -15,7 +15,7 @@
 
 
 <http://www.test.com/TriplesMap1>
-    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:logicalTable [ rr:tableName "student" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
         rr:class ex:Employee;
@@ -26,7 +26,7 @@
     ].
 
 <http://www.test.com/TriplesMap2>
-    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:logicalTable [ rr:sqlQuery "SELECT PROFESSOR.*, (CASE University WHEN 'Connecticut' THEN 'general-office' WHEN 'Harvard University' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) University FROM PROFESSOR" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
         rr:class ex:Employee;
@@ -48,7 +48,7 @@
         ].
 
 <http://www.test.com/TriplesMap4>
-    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:logicalTable [ rr:sqlQuery "SELECT PROFESSOR.*, (CASE University WHEN 'Connecticut' THEN 'general-office' WHEN 'Harvard University' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) University FROM PROFESSOR"  ];
     rr:subjectMap [
         rr:column "EMPURL";
         rr:class ex:Employee;
@@ -59,7 +59,7 @@
     ].
 
 <http://www.test.com/TriplesMap5>
-    rr:logicalTable [ rr:sqlQuery "SELECT EMP.*, (CASE JOB WHEN 'CLERK' THEN 'general-office' WHEN 'NIGHTGUARD' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) ROLE FROM EMP" ];
+    rr:logicalTable [ rr:sqlQuery "SELECT PROFESSOR.*, (CASE University WHEN 'Connecticut' THEN 'general-office' WHEN 'Harvard University' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) University FROM PROFESSOR"  ];
     rr:subjectMap [
         rr:constant "http://www.constant.com";
         rr:class ex:Employee;

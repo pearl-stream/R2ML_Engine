@@ -48,7 +48,7 @@ class TemplateTriple(AbstractTriple):
 	def __repr__(self):
 		return AbstractTriple.__repr__(self)
 
-def exeucteSparqlQuery(sparqlResult):
+def exeucteSparqlQuery(sparqlQuery):
     #Create rdf graph and load file to graph
     graph = rdflib.Graph()
     graph.load("r2rml.n3", format="n3")
@@ -98,15 +98,19 @@ def executeFuctionForQueryResult(queryType, rows):
         return handleTypeQueryColumn(rows)
 
 allTabelStatementsDict = {query.name: query.value for query in q.R2RMLqueries}
+allTriples = []
+
 #print(allTabelStatementsDict)
 #allTabelStatementsDict = {'typeTableTemplate' : q.R2RMLqueries.typeTableTemplate.value, 'typeQueryTemplate' : q.R2RMLqueries.typeQueryTemplate.value}
-allTriples = []
-for key in allTabelStatementsDict:
-    sparqlQuery = allTabelStatementsDict[key]
-    rows = exeucteSparqlQuery(sparqlQuery)
-    result = executeFuctionForQueryResult(key, rows)
-    if result:
-    	allTriples = allTriples + result
+
+def createAllTriples():
+    global allTriples
+    for key in allTabelStatementsDict:
+        sparqlQuery = allTabelStatementsDict[key]
+        rows = exeucteSparqlQuery(sparqlQuery)
+        result = executeFuctionForQueryResult(key, rows)
+        if result:
+        	allTriples = allTriples + result
 
 print("Lenght of result: " + str(len(allTriples)))
 #sortBySQLTale(allTriples)
