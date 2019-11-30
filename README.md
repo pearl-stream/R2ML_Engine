@@ -42,6 +42,10 @@ docker-compose -f docker-my-sql.yml up
 mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development
 ```
 
+In case this ip does not work have a look to the IP of the docker container:
+```
+docker-machine ip
+```
 ## Fill database with sql script
 ```
 mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development < python/sql/fillDatabases.sql 
