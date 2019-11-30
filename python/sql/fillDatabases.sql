@@ -74,10 +74,10 @@ INSERT INTO COURSE (Name, Description, ECTS, ProfID)
 
 INSERT INTO STUDENT (LastName, FirstName, Field, AverageGrade)
   VALUES
-  ('Adomski', 'Adam', 'Alchemy', 1.0),
-  ('Berowski', 'Berta', 'Business', 2.3),
-  ('Christophski', 'Christoph', 'Computer Science', 3.4),
-  ('Detlevski', 'Detlev', 'Data Science', 4.0);
+  ('Adomski', 'Adam', 'http://data.example.com/degree/Alchemy', 1.0),
+  ('Berowski', 'Berta', 'http://data.example.com/degree/Business', 2.3),
+  ('Christophski', 'Christoph', 'http://data.example.com/degree/Computer Science', 3.4),
+  ('Detlevski', 'Detlev', 'http://data.example.com/degree/Data Science', 4.0);
 
 INSERT INTO COURSE_STUDENT
   VALUES
