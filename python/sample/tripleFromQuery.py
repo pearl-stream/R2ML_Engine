@@ -25,7 +25,7 @@ class AbstractTriple:
 	def getPredicate(self):
 		return self.predicate
 	def getSubject(self):
-		return self.subject
+		return str(self.subject)
 	def getSql(self):
 		return self.sql
 
