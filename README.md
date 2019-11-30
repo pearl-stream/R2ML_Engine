@@ -29,8 +29,11 @@ Please make sure to update tests as appropriate.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Start Docker with Database
-
+For awesome Mac users (1) and (2) has probably be executed 
 ```
+eval "$(docker-machine env default)"
+export COMPOSE_TLS_VERSION=TLSv1_2
+
 docker-compose -f docker-my-sql.yml up
 ```
 
