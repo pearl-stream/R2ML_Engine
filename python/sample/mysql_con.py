@@ -12,7 +12,7 @@ class MySQL():
             self.password = password
             self.database = database
             self.db = None
-            self.cache = ("", None)
+            self.cache = ("", None, None)
 
     def connect_to_mysql(self):
         print("Trying to connect to db")
@@ -26,6 +26,12 @@ class MySQL():
             else:
                 print(err)
 
+    def translateRowsToKeyValue(self, cursor):
+        num_fields = len(cursor.description)
+        i = 0
+        field_to_index_map = {cursor.description[i][0] : i for i in range(len(cursor.description))}
+        return field_to_index_map
+
     def execQuery(self, query):
         if(self.cache[0] == query):
             return
@@ -34,12 +40,13 @@ class MySQL():
         cursor = self.db.cursor()
         cursor.execute(query)
         rows = cursor.fetchall()
-        self.cache = (query, rows)
+        field_to_index_map = self.translateRowsToKeyValue(cursor)
+        self.cache = (query, rows, field_to_index_map)
 
     def getRows(self):
         return self.cache[1]
-
-
+    def getColumnNameToKey(self):
+        return self.cache[2]
 #m = MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
 #m.execQuery("select * from student")
 #rows = m.getRows()

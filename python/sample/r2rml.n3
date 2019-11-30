@@ -5,7 +5,7 @@
 <http://www.test.com/TriplesMap0>
     rr:logicalTable [ rr:tableName "student" ];
     rr:subjectMap [
-        rr:column "EMPURL";
+        rr:column "StudentID";
         rr:class ex:Employee;
     ];
     rr:predicateObjectMap [
@@ -50,7 +50,7 @@
 <http://www.test.com/TriplesMap4>
     rr:logicalTable [ rr:sqlQuery "SELECT PROFESSOR.*, (CASE University WHEN 'Connecticut' THEN 'general-office' WHEN 'Harvard University' THEN 'security' WHEN 'ENGINEER' THEN 'engineering' END) University FROM PROFESSOR"  ];
     rr:subjectMap [
-        rr:column "EMPURL";
+        rr:column "ProfID";
         rr:class ex:Employee;
     ];
     rr:predicateObjectMap [

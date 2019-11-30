@@ -112,7 +112,6 @@ def createAllTriples():
         if result:
         	allTriples = allTriples + result
 
-print("Lenght of result: " + str(len(allTriples)))
 #sortBySQLTale(allTriples)
 for x in allTriples:
     #print(x) --> Result looks strange. Has to be fixed
