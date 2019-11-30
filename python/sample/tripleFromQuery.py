@@ -111,6 +111,7 @@ def createAllTriples():
         result = executeFuctionForQueryResult(key, rows)
         if result:
         	allTriples = allTriples + result
+    allTriples.sort(key=lambda allTriples: allTriples.getSql())
 
 #sortBySQLTale(allTriples)
 #for x in allTriples:
