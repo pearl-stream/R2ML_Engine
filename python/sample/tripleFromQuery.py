@@ -113,17 +113,16 @@ def createAllTriples():
         	allTriples = allTriples + result
 
 #sortBySQLTale(allTriples)
-for x in allTriples:
-    #print(x) --> Result looks strange. Has to be fixed
-    print("Tuple:")
-    print(x.getSql())
-    print(x.getSubject())
-    print(x.getPredicate())
-    print(x.getObject())
+#for x in allTriples:
+    #print(x) --> Result looks strange. Has to be fixed#
+#    print(x.getSql())
+#    print(x.getSubject())
+#    print(x.getPredicate())
+#    print(x.getObject())
 
 
-    print("---")
-    print("")
+#    print("---")
+#    print("")
     #createTriple(x)
 
 
