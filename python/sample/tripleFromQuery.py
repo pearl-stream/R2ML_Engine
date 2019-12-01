@@ -10,7 +10,7 @@ import queries as q
 #       How to sort the statements can be a task. For not it would be enough by name/alpha-numeric
 #       Queries that are semantic similar, or by involved table, could be a way to go in the future
 ###############################################################
-class AbstractTriple:
+class AbstractSubjectMapTriple:
 	def __init__(self, sql,  subject, predicate, object):
 		self.sql = sql
 		self.subject = subject
@@ -30,23 +30,40 @@ class AbstractTriple:
 		return self.sql
 
 
-class ColumnTriple(AbstractTriple):
+class ColumnTriple(AbstractSubjectMapTriple):
 	def __init__(self, sql,  subject, predicate, object):
-		AbstractTriple.__init__(self, sql, subject, predicate, object)
+		AbstractSubjectMapTriple.__init__(self, sql, subject, predicate, object)
 		self.type = "Column"
 	def __str__(self):
 		return AbstractTriple.__str__(self)
 	def __repr__(self):
 		return AbstractTriple.__repr__(self)
 
-class TemplateTriple(AbstractTriple):
+class TemplateTriple(AbstractSubjectMapTriple):
 	def __init__(self, sql,  subject, predicate, object):
-		AbstractTriple.__init__(self, sql, subject, predicate, object)
+		AbstractSubjectMapTriple.__init__(self, sql, subject, predicate, object)
 		self.type = "Template"
 	def __str__(self):
 		return AbstractTriple.__str__(self)
 	def __repr__(self):
 		return AbstractTriple.__repr__(self)
+
+class AbstractColumnMapTriple:
+	def __init__(self, key, predicate, object):
+		self.key = key
+		self.predicate = predicate
+		self.object = object
+	def getKey(self):
+		return str(self.key)
+	def getPredicate(self):
+		return str(self.predicate)
+	def getObject(self):
+		return str(self.object)
+
+class TemplateColumnMapTriple(AbstractColumnMapTriple):
+	def __init__(self, key, predicate, object):
+		AbstractColumnMapTriple.__init__(self, key, predicate, object)
+		self.type = "Template"
 
 def exeucteSparqlQuery(sparqlQuery):
     #Create rdf graph and load file to graph
@@ -98,21 +115,40 @@ def executeFuctionForQueryResult(queryType, rows):
         return handleTypeQueryColumn(rows)
 
 allTabelStatementsDict = {query.name: query.value for query in q.R2RMLqueries}
-allTriples = []
-
+allSubjectTriples = []
+subjectToColumnMap = {}
 #print(allTabelStatementsDict)
 #allTabelStatementsDict = {'typeTableTemplate' : q.R2RMLqueries.typeTableTemplate.value, 'typeQueryTemplate' : q.R2RMLqueries.typeQueryTemplate.value}
 
-def createAllTriples():
-    global allTriples
+def createAllSubjectTriples():
+    global allSubjectTriples
     for key in allTabelStatementsDict:
         sparqlQuery = allTabelStatementsDict[key]
         rows = exeucteSparqlQuery(sparqlQuery)
         result = executeFuctionForQueryResult(key, rows)
         if result:
-        	allTriples = allTriples + result
-    allTriples.sort(key=lambda allTriples: allTriples.getSql())
+        	allSubjectTriples = allSubjectTriples + result
+    allSubjectTriples.sort(key=lambda x: x.getSql())
 
+
+def createAllColumnTriples():
+	sparql = q.R2RMLqueries.typePredicateObjectTemplate.value
+	rows = exeucteSparqlQuery(sparql)
+	global subjectToColumnMap
+	for (subjectTemplate, predicate, column) in rows:
+		columnTriple = TemplateColumnMapTriple(subjectTemplate, predicate, column)
+		subjectKey = columnTriple.getKey()
+		if(subjectKey in subjectToColumnMap):
+			curList = subjectToColumnMap[subjectKey]
+			curList.append(columnTriple)
+			subjectToColumnMap[subjectKey] = curLists
+		else:
+			subjectToColumnMap[subjectKey] = [columnTriple]
+
+#createAllColumnTriples()
+#for key in subjectToColumnMap:
+#	columnTriple = subjectToColumnMap[key]
+#	print(columnTriple.getKey() + " " + columnTriple.getPredicate() + " " + columnTriple.getObject())
 #sortBySQLTale(allTriples)
 #for x in allTriples:
     #print(x) --> Result looks strange. Has to be fixed#

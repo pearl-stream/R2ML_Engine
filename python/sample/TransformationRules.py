@@ -6,6 +6,11 @@ class TransformSubjectMap():
   def __init__(self):
       self.m = mysql.MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
 
+  def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
+      index = nameToIndex[columnTriple.getObject()]
+      object = str(row[index])
+      print(subject + " "+ columnTriple.getPredicate() + " " + object)
+
   def transformSubjectMapTriple(self, subjectTriple):
       self.m.execQuery(subjectTriple.sql)
       rows = self.m.getRows()
@@ -26,6 +31,13 @@ class TransformSubjectMap():
           subject = template + str(row[index])
           predicate = subjectTriple.getPredicate()
           object = subjectTriple.getObject()
+          if subjectTriple.getSubject() in triples.subjectToColumnMap:
+              print("------------------Start")
+              tripleSubject = subjectTriple.getSubject()
+              matchingColumnMaps  = triples.subjectToColumnMap[tripleSubject]
+              for matchingColumnMap in matchingColumnMaps:
+                  self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
+              print("------------------End")
           print(subject + " " + predicate + " " + str(object))
 
   def transform(self, abstractTriple):
@@ -34,8 +46,9 @@ class TransformSubjectMap():
 
 print("Starting the execution of SubjectMap translations")
 ts = TransformSubjectMap()
-triples.createAllTriples()
-for x in triples.allTriples:
+triples.createAllSubjectTriples()
+triples.createAllColumnTriples()
+for x in triples.allSubjectTriples:
     ts.transform(x)
 
 
