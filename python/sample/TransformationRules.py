@@ -12,6 +12,7 @@ class TransformSubjectMap():
       print(subject + " "+ columnTriple.getPredicate() + " " + object)
 
   def transformSubjectMapTriple(self, subjectTriple):
+      print("Working on: " + subjectTriple.getId())
       self.m.execQuery(subjectTriple.sql)
       rows = self.m.getRows()
       nameToIndex = self.m.getColumnNameToKey()
@@ -32,12 +33,12 @@ class TransformSubjectMap():
           predicate = subjectTriple.getPredicate()
           object = subjectTriple.getObject()
           print(subject + " " + predicate + " " + str(object))
-          if subjectTriple.getSubject() in triples.subjectToColumnMap:
+          trippleId = subjectTriple.getId()
+          if trippleId in triples.subjectToColumnMap:
               print("------------------StartColumnToSubject")
               tripleSubject = subjectTriple.getSubject()
-              matchingColumnMaps  = triples.subjectToColumnMap[tripleSubject]
-              for matchingColumnMap in matchingColumnMaps:
-                  self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
+              matchingColumnMap  = triples.subjectToColumnMap[trippleId]
+              self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
               print("------------------EndColumnToSubject")
 
   def transform(self, abstractTriple):

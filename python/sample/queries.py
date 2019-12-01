@@ -14,7 +14,7 @@ class R2RMLqueries(Enum):
   ###############################################################
 
   typeTableTemplate  = prefix + """
-                       SELECT ?tableName ?subjectTemplate ?class WHERE {
+                       SELECT ?triplesMap ?tableName ?subjectTemplate ?class WHERE {
                        ?triplesMap rr:logicalTable ?logicalTableBlank.
                        ?logicalTableBlank rr:tableName ?tableName.
                        ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -22,7 +22,7 @@ class R2RMLqueries(Enum):
                        ?subjectMapBlank rr:class ?class.} """
 
   typeTableColumn =  prefix + """
-                     SELECT ?tableName ?subjectColumn ?class WHERE {
+                     SELECT ?triplesMap ?tableName ?subjectColumn ?class WHERE {
                      ?triplesMap rr:logicalTable ?logicalTableBlank.
                      ?logicalTableBlank rr:tableName ?tableName.
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -30,7 +30,7 @@ class R2RMLqueries(Enum):
                      ?subjectMapBlank rr:class ?class.} """
 
   typeQueryTemplate =  prefix + """
-                       SELECT ?sqlQuery ?subjectTemplate ?class WHERE {
+                       SELECT ?triplesMap ?sqlQuery ?subjectTemplate ?class WHERE {
                        ?triplesMap rr:logicalTable ?logicalTableBlank.
                        ?logicalTableBlank rr:sqlQuery ?sqlQuery.
                        ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -38,7 +38,7 @@ class R2RMLqueries(Enum):
                        ?subjectMapBlank rr:class ?class.}"""
 
   typeQueryColumn =  prefix + """
-                     SELECT ?sqlQuery ?subjectColumn ?class WHERE {
+                     SELECT ?triplesMap ?sqlQuery ?subjectColumn ?class WHERE {
                      ?triplesMap rr:logicalTable ?logicalTableBlank.
                      ?logicalTableBlank rr:sqlQuery ?sqlQuery.
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -46,22 +46,23 @@ class R2RMLqueries(Enum):
                      ?subjectMapBlank rr:class ?class.}"""
 
   typeConstant =  prefix + """
-                  SELECT ?subjectConstant ?class WHERE {
+                  SELECT ?triplesMap ?subjectConstant ?class WHERE {
                   ?triplesMap rr:logicalTable _:logicalTableBlank.
                   ?triplesMap rr:subjectMap ?subjectMapBlank.
                   ?subjectMapBlank rr:constant ?subjectConstant.
                   ?subjectMapBlank rr:class ?class.}"""
 
   typePredicateObjectTemplate = prefix + """
-                     SELECT ?subjectTemplate ?predciate ?columnName WHERE {
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
                      ?subjectMapBlank rr:template ?subjectTemplate.
                      ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
                      ?logicalObjectMap rr:predicate ?predciate.
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:column  ?columnName.}"""
+
   typePredicateObjectColumn = prefix + """
-                     SELECT ?subjectTemplate ?predciate ?subjectColumn WHERE {
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?subjectColumn WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
                      ?subjectMapBlank rr:column ?subjectColumn.
                      ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
