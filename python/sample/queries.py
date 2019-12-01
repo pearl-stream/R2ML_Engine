@@ -52,6 +52,7 @@ class R2RMLSujectMapQueries(Enum):
                   ?subjectMapBlank rr:constant ?subjectConstant.
                   ?subjectMapBlank rr:class ?class.}"""
 
+
 class R2RMLObjectMapQueries(Enum):
   typeSubjectTemplatePredicateObjectColumn = prefix + """
                      SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
@@ -63,7 +64,7 @@ class R2RMLObjectMapQueries(Enum):
                      ?objectMapBlank rr:column  ?columnName.}"""
 
   typeSubjectColumnPredicateObjectColumn = prefix + """
-                     SELECT ?triplesMap ?subjectTemplate ?predciate ?subjectColumn WHERE {
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
                      ?subjectMapBlank rr:column ?subjectColumn.
                      ?triplesMap rr:predicateObjectMap ?logicalObjectMap.

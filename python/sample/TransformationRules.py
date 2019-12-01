@@ -9,6 +9,7 @@ class TransformSubjectMap():
   def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
       object = columnTriple.getObject()
       column = object
+      template = ""
       if isinstance(columnTriple, triples.TemplateColumnMapTriple):
           regex = "(.*){(.*)}(.*)"
           result = re.search(regex, object)
@@ -17,10 +18,6 @@ class TransformSubjectMap():
               column = result.group(2)
           else:
               print("Template is wrong definied: " + object)
-      else:
-          template = ""
-
-
       if column not in nameToIndex:
           print("Error: The following column is not part of the table" + column)
           return
@@ -52,11 +49,9 @@ class TransformSubjectMap():
           print(subject + " " + predicate + " " + str(object))
           trippleId = subjectTriple.getId()
           if trippleId in triples.subjectToColumnMap:
-              print("------------------StartColumnToSubject")
               tripleSubject = subjectTriple.getSubject()
               matchingColumnMap  = triples.subjectToColumnMap[trippleId]
               self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
-              print("------------------EndColumnToSubject")
 
   def transform(self, abstractTriple):
       if isinstance(abstractTriple, triples.ColumnTriple) or isinstance(abstractTriple, triples.TemplateTriple):
