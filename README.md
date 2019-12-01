@@ -50,3 +50,9 @@ docker-machine ip
 ```
 mysql -h 127.0.0.1 -P 3306 -u root -D mysql-development < python/sql/fillDatabases.sql 
 ```
+
+## Execute programm:
+```
+cd R2ML_Project/python/sample
+python3 TransformationRules.py 
+```
