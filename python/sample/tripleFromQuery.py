@@ -2,8 +2,6 @@ import rdflib
 import queries as q
 
 
-
-
 ###############################################################
 ################# Freddy Test 23.11.19 ########################
 # -- Sorting by SQL is missing:
@@ -83,7 +81,7 @@ class TemplateColumnMapTriple(AbstractColumnMapTriple):
 
 def exeucteSparqlQuery(sparqlQuery):
     #Create rdf graph and load file to graph
-    global graph	
+    global graph
     result = graph.query(sparqlQuery) #Execute sparql query
     return result
 #?tableName ?subjectTemplate ?class

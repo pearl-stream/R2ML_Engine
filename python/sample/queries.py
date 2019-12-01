@@ -53,6 +53,11 @@ class R2RMLSujectMapQueries(Enum):
                   ?subjectMapBlank rr:class ?class.}"""
 
 
+  ###############################################################
+  ###############################################################
+  ##########   QUERIES FOR TRIPLES OF PRECIATE MAPs   ##############
+  ###############################################################
+  ###############################################################
 class R2RMLObjectMapQueries(Enum):
   typeSubjectTemplatePredicateObjectColumn = prefix + """
                      SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
@@ -90,11 +95,6 @@ class R2RMLObjectMapQueries(Enum):
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:template  ?templateName.}"""
 
-  ###############################################################
-  ###############################################################
-  ##########   QUERIES FOR TRIPLES OF OTHER FORM   ##############
-  ###############################################################
-  ###############################################################
 
 #The following queries have to be implemented and tested
 
