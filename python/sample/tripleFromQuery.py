@@ -132,10 +132,14 @@ def createAllSubjectTriples():
 
 
 def createAllColumnTriples():
-	sparql = q.R2RMLqueries.typePredicateObjectTemplate.value
-	rows = exeucteSparqlQuery(sparql)
+	sparqlQueries = [q.R2RMLqueries.typePredicateObjectTemplate.value, q.R2RMLqueries.typePredicateObjectColumn.value]
 	global subjectToColumnMap
-	for (subjectTemplate, predicate, column) in rows:
+	allRows = []
+	for sparql in sparqlQueries:
+		rows = exeucteSparqlQuery(sparql)
+		allRows = allRows + rows
+
+	for (subjectTemplate, predicate, column) in allRows:
 		columnTriple = TemplateColumnMapTriple(subjectTemplate, predicate, column)
 		subjectKey = columnTriple.getKey()
 		if(subjectKey in subjectToColumnMap):

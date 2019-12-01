@@ -60,6 +60,17 @@ class R2RMLqueries(Enum):
                      ?logicalObjectMap rr:predicate ?predciate.
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:column  ?columnName.}"""
+  typePredicateObjectColumn = prefix + """
+                     SELECT ?subjectTemplate ?predciate ?subjectColumn WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:column ?subjectColumn.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:column  ?columnName.}"""
+
+
+
   ###############################################################
   ###############################################################
   ##########   QUERIES FOR TRIPLES OF OTHER FORM   ##############
