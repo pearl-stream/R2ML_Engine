@@ -31,14 +31,14 @@ class TransformSubjectMap():
           subject = template + str(row[index])
           predicate = subjectTriple.getPredicate()
           object = subjectTriple.getObject()
+          print(subject + " " + predicate + " " + str(object))
           if subjectTriple.getSubject() in triples.subjectToColumnMap:
-              print("------------------Start")
+              print("------------------StartColumnToSubject")
               tripleSubject = subjectTriple.getSubject()
               matchingColumnMaps  = triples.subjectToColumnMap[tripleSubject]
               for matchingColumnMap in matchingColumnMaps:
                   self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
-              print("------------------End")
-          print(subject + " " + predicate + " " + str(object))
+              print("------------------EndColumnToSubject")
 
   def transform(self, abstractTriple):
       if isinstance(abstractTriple, triples.ColumnTriple) or isinstance(abstractTriple, triples.TemplateTriple):

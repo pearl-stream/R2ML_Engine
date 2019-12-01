@@ -43,8 +43,8 @@
             rr:class ex:Student;
         ];
         rr:predicateObjectMap [
-            rr:predicate ex:name;
-            rr:objectMap [ rr:column "LastName" ];
+            rr:predicate ex:firstname;
+            rr:objectMap [ rr:column "FirstName" ];
         ].
 
 <http://www.test.com/TriplesMap4>
@@ -54,8 +54,8 @@
         rr:class ex:University;
     ];
     rr:predicateObjectMap [
-        rr:predicate ex:name;
-        rr:objectMap [ rr:column "LastName" ];
+        rr:predicate ex:firstname;
+        rr:objectMap [ rr:column "FirstName" ];
     ].
 
 <http://www.test.com/TriplesMap5>

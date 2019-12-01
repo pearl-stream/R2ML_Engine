@@ -130,24 +130,21 @@ def createAllSubjectTriples():
         	allSubjectTriples = allSubjectTriples + result
     allSubjectTriples.sort(key=lambda x: x.getSql())
 
-
+# That has to be changed to map by tripleMapId. Otherwise a missmatch
 def createAllColumnTriples():
 	sparqlQueries = [q.R2RMLqueries.typePredicateObjectTemplate.value, q.R2RMLqueries.typePredicateObjectColumn.value]
 	global subjectToColumnMap
-	allRows = []
 	for sparql in sparqlQueries:
 		rows = exeucteSparqlQuery(sparql)
-		allRows = allRows + rows
-
-	for (subjectTemplate, predicate, column) in allRows:
-		columnTriple = TemplateColumnMapTriple(subjectTemplate, predicate, column)
-		subjectKey = columnTriple.getKey()
-		if(subjectKey in subjectToColumnMap):
-			curList = subjectToColumnMap[subjectKey]
-			curList.append(columnTriple)
-			subjectToColumnMap[subjectKey] = curLists
-		else:
-			subjectToColumnMap[subjectKey] = [columnTriple]
+		for (subjectTemplate, predicate, column) in rows:
+			columnTriple = TemplateColumnMapTriple(subjectTemplate, predicate, column)
+			subjectKey = columnTriple.getKey()
+			if(subjectKey in subjectToColumnMap):
+				curList = subjectToColumnMap[subjectKey]
+				curList.append(columnTriple)
+				subjectToColumnMap[subjectKey] = curList
+			else:
+				subjectToColumnMap[subjectKey] = [columnTriple]
 
 #createAllColumnTriples()
 #for key in subjectToColumnMap:
