@@ -2,8 +2,9 @@ import tripleFromQuery as triples
 import mysql_con as mysql
 import re
 
-class TransformSubjectMap():
+class TransformEnginee():
   def __init__(self):
+      print("ConnectingToDb")
       self.m = mysql.MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
 
   def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
@@ -26,7 +27,7 @@ class TransformSubjectMap():
       print(subject + " "+ columnTriple.getPredicate() + " " + object)
 
   def transformSubjectMapTriple(self, subjectTriple):
-      print("Working on: " + subjectTriple.getId())
+      print("Working on transformation for Mapping rule: " + subjectTriple.getId())
       self.m.execQuery(subjectTriple.sql)
       rows = self.m.getRows()
       nameToIndex = self.m.getColumnNameToKey()
@@ -58,18 +59,9 @@ class TransformSubjectMap():
           self.transformSubjectMapTriple(abstractTriple)
 
 print("Starting the execution of SubjectMap translations")
-ts = TransformSubjectMap()
-triples.createAllSubjectTriples()
-triples.createAllColumnTriples()
+ts = TransformEnginee()
+print("Connection Done")
+triples.setup()
+print("Finished translating Sparql rules into classes")
 for x in triples.allSubjectTriples:
     ts.transform(x)
-
-
-#    print("Tuple:")
-#    print(x.getSql())
-#    print(x.getSubject())
-#    print(x.getPredicate())
-#    print(x.getObject())
-#    print("---")
-#    print("")
-#    ts.transform(x)
