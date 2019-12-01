@@ -66,10 +66,18 @@ class AbstractColumnMapTriple:
 	def getSubject(self):
 		return self.subject
 
-class ColumnMapTriple(AbstractColumnMapTriple):
+class ColumnColumnMapTriple(AbstractColumnMapTriple):
 	def __init__(self, id, key, predicate, object):
 		AbstractColumnMapTriple.__init__(self, id, key, predicate, object)
 		self.type = "ColumnMap"
+	def getType(self):
+		return self.type
+class TemplateColumnMapTriple(AbstractColumnMapTriple):
+	def __init__(self, id, key, predicate, object):
+		AbstractColumnMapTriple.__init__(self, id, key, predicate, object)
+		self.type = "TemplateMap"
+	def getType(self):
+		return self.type
 
 def exeucteSparqlQuery(sparqlQuery):
     #Create rdf graph and load file to graph
@@ -78,7 +86,7 @@ def exeucteSparqlQuery(sparqlQuery):
     result = graph.query(sparqlQuery) #Execute sparql query
     return result
 #?tableName ?subjectTemplate ?class
-def handleTypeTableTemplate(sparqlResult):
+def handleSubjectMapTypeTableTemplate(sparqlResult):
     triple_list = []
     for (id, tableName, template, class_n) in sparqlResult:
         sqlTable = "select * from " + tableName
@@ -87,7 +95,7 @@ def handleTypeTableTemplate(sparqlResult):
     return triple_list
 
 #?tableName ?subjectColumn ?class
-def handleTypeTableColumn(sparqlResult):
+def handleSubjectMapTypeTableColumn(sparqlResult):
     triple_list = []
     for (id, tableName, subjectColumn, class_n) in sparqlResult:
         sqlTable = "select * from " + tableName
@@ -95,7 +103,7 @@ def handleTypeTableColumn(sparqlResult):
         triple_list.append(t_n)
     return triple_list
 
-def handleTypeQueryTemplate(sparqlResult):
+def handleSubjectMapTypeQueryTemplate(sparqlResult):
     triple_list = []
     for (id, sqlquery, template, class_n) in sparqlResult:
         t_n = TemplateTriple(id, sqlquery, template,  "rdf:type", class_n)
@@ -103,7 +111,7 @@ def handleTypeQueryTemplate(sparqlResult):
     return triple_list
 
 # ?sqlQuery ?subjectColumn ?class
-def handleTypeQueryColumn(sparqlResult):
+def handleSubjectMapTypeQueryColumn(sparqlResult):
     triple_list = []
     for (id, sqlQuery, subjectColumn, class_n) in sparqlResult:
         t_n = ColumnTriple(id, sqlQuery, subjectColumn,  "rdf:type", class_n)
@@ -112,15 +120,16 @@ def handleTypeQueryColumn(sparqlResult):
 
 def executeFuctionForQueryResult(queryType, rows):
     if queryType == 'typeTableTemplate':
-        return handleTypeTableTemplate(rows)
+        return handleSubjectMapTypeTableTemplate(rows)
     elif queryType == 'typeTableColumn':
-        return handleTypeTableColumn(rows)
+        return handleSubjectMapTypeTableColumn(rows)
     elif queryType == 'typeQueryTemplate':
-        return handleTypeQueryTemplate(rows)
+        return handleSubjectMapTypeQueryTemplate(rows)
     elif queryType == 'typeQueryColumn':
-        return handleTypeQueryColumn(rows)
+        return handleSubjectMapTypeQueryColumn(rows)
 
-allTabelStatementsDict = {query.name: query.value for query in q.R2RMLqueries}
+allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSujectMapQueries}
+allObjectMapStatementsDict = {query.name: query.value for query in q.R2RMLObjectMapQueries }
 allSubjectTriples = []
 subjectToColumnMap = {}
 #print(allTabelStatementsDict)
@@ -128,8 +137,8 @@ subjectToColumnMap = {}
 
 def createAllSubjectTriples():
     global allSubjectTriples
-    for key in allTabelStatementsDict:
-        sparqlQuery = allTabelStatementsDict[key]
+    for key in allSubjectMapStatementsDict:
+        sparqlQuery = allSubjectMapStatementsDict[key]
         rows = exeucteSparqlQuery(sparqlQuery)
         result = executeFuctionForQueryResult(key, rows)
         if result:
@@ -138,31 +147,17 @@ def createAllSubjectTriples():
 
 # That has to be changed to map by tripleMapId. Otherwise a missmatch
 def createAllColumnTriples():
-	sparqlQueries = [q.R2RMLqueries.typePredicateObjectTemplate.value, q.R2RMLqueries.typePredicateObjectColumn.value]
 	global subjectToColumnMap
-	for sparql in sparqlQueries:
+	for key in allObjectMapStatementsDict:
+		sparql = allObjectMapStatementsDict[key]
 		rows = exeucteSparqlQuery(sparql)
 		for (id, subjectTemplate, predicate, column) in rows:
-			columnTriple = ColumnMapTriple(id, subjectTemplate, predicate, column)
+			if key.find("ObjectTemplate") > 0:
+				columnTriple = TemplateColumnMapTriple(id, subjectTemplate, predicate, column)
+			elif key.find("ObjectColumn") > 0: # ObjectColumn
+				columnTriple = ColumnColumnMapTriple(id, subjectTemplate, predicate, column)
+			else:
+				print("Not defined query is right now iterated. Please adapt query")
+				break
 			subjectKey = columnTriple.getKey()
 			subjectToColumnMap[columnTriple.getKey()] = columnTriple
-
-#createAllColumnTriples()
-#for key in subjectToColumnMap:
-#	columnTriple = subjectToColumnMap[key]
-#	print(columnTriple.getKey() + " " + columnTriple.getPredicate() + " " + columnTriple.getObject())
-#sortBySQLTale(allTriples)
-#for x in allTriples:
-    #print(x) --> Result looks strange. Has to be fixed#
-#    print(x.getSql())
-#    print(x.getSubject())
-#    print(x.getPredicate())
-#    print(x.getObject())
-
-
-#    print("---")
-#    print("")
-    #createTriple(x)
-
-
-  #[...]

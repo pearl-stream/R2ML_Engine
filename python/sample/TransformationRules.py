@@ -7,8 +7,25 @@ class TransformSubjectMap():
       self.m = mysql.MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
 
   def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
-      index = nameToIndex[columnTriple.getObject()]
-      object = str(row[index])
+      object = columnTriple.getObject()
+      column = object
+      if isinstance(columnTriple, triples.TemplateColumnMapTriple):
+          regex = "(.*){(.*)}(.*)"
+          result = re.search(regex, object)
+          if result:
+              template = result.group(1)
+              column = result.group(2)
+          else:
+              print("Template is wrong definied: " + object)
+      else:
+          template = ""
+
+
+      if column not in nameToIndex:
+          print("Error: The following column is not part of the table" + column)
+          return
+      index = nameToIndex[column]
+      object = template + str(row[index])
       print(subject + " "+ columnTriple.getPredicate() + " " + object)
 
   def transformSubjectMapTriple(self, subjectTriple):

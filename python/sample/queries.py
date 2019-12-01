@@ -4,7 +4,7 @@ from enum import Enum
 prefix = "PREFIX rr: <http://www.w3.org/ns/r2rml#>"
 
 
-class R2RMLqueries(Enum):
+class R2RMLSujectMapQueries(Enum):
   '''Holds queries used to parse R2RML'''
 
   ###############################################################
@@ -52,7 +52,8 @@ class R2RMLqueries(Enum):
                   ?subjectMapBlank rr:constant ?subjectConstant.
                   ?subjectMapBlank rr:class ?class.}"""
 
-  typePredicateObjectTemplate = prefix + """
+class R2RMLObjectMapQueries(Enum):
+  typeSubjectTemplatePredicateObjectColumn = prefix + """
                      SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
                      ?subjectMapBlank rr:template ?subjectTemplate.
@@ -61,7 +62,7 @@ class R2RMLqueries(Enum):
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:column  ?columnName.}"""
 
-  typePredicateObjectColumn = prefix + """
+  typeSubjectColumnPredicateObjectColumn = prefix + """
                      SELECT ?triplesMap ?subjectTemplate ?predciate ?subjectColumn WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
                      ?subjectMapBlank rr:column ?subjectColumn.
@@ -70,7 +71,23 @@ class R2RMLqueries(Enum):
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:column  ?columnName.}"""
 
+  typeSubjectColumnPredicateObjectTemplate = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:template ?subjectTemplate.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:template ?templateName.}"""
 
+  typeSubjectTemplatePredicateObjectTemplate = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:template ?subjectTemplate.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:template  ?templateName.}"""
 
   ###############################################################
   ###############################################################
