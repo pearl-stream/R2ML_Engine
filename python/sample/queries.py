@@ -4,7 +4,7 @@ from enum import Enum
 prefix = "PREFIX rr: <http://www.w3.org/ns/r2rml#>"
 
 
-class R2RMLqueries(Enum):
+class R2RMLSujectMapQueries(Enum):
   '''Holds queries used to parse R2RML'''
 
   ###############################################################
@@ -12,9 +12,9 @@ class R2RMLqueries(Enum):
   #### QUERIES FOR TRIPLES OF FORM subject rdf:type class   #####
   ###############################################################
   ###############################################################
- 
+
   typeTableTemplate  = prefix + """
-                       SELECT ?tableName ?subjectTemplate ?class WHERE {
+                       SELECT ?triplesMap ?tableName ?subjectTemplate ?class WHERE {
                        ?triplesMap rr:logicalTable ?logicalTableBlank.
                        ?logicalTableBlank rr:tableName ?tableName.
                        ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -22,7 +22,7 @@ class R2RMLqueries(Enum):
                        ?subjectMapBlank rr:class ?class.} """
 
   typeTableColumn =  prefix + """
-                     SELECT ?tableName ?subjectColumn ?class WHERE {
+                     SELECT ?triplesMap ?tableName ?subjectColumn ?class WHERE {
                      ?triplesMap rr:logicalTable ?logicalTableBlank.
                      ?logicalTableBlank rr:tableName ?tableName.
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -30,7 +30,7 @@ class R2RMLqueries(Enum):
                      ?subjectMapBlank rr:class ?class.} """
 
   typeQueryTemplate =  prefix + """
-                       SELECT ?sqlQuery ?subjectTemplate ?class WHERE {
+                       SELECT ?triplesMap ?sqlQuery ?subjectTemplate ?class WHERE {
                        ?triplesMap rr:logicalTable ?logicalTableBlank.
                        ?logicalTableBlank rr:sqlQuery ?sqlQuery.
                        ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -38,7 +38,7 @@ class R2RMLqueries(Enum):
                        ?subjectMapBlank rr:class ?class.}"""
 
   typeQueryColumn =  prefix + """
-                     SELECT ?sqlQuery ?subjectColumn ?class WHERE {
+                     SELECT ?triplesMap ?sqlQuery ?subjectColumn ?class WHERE {
                      ?triplesMap rr:logicalTable ?logicalTableBlank.
                      ?logicalTableBlank rr:sqlQuery ?sqlQuery.
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
@@ -46,17 +46,55 @@ class R2RMLqueries(Enum):
                      ?subjectMapBlank rr:class ?class.}"""
 
   typeConstant =  prefix + """
-                  SELECT ?subjectConstant ?class WHERE {
+                  SELECT ?triplesMap ?subjectConstant ?class WHERE {
                   ?triplesMap rr:logicalTable _:logicalTableBlank.
                   ?triplesMap rr:subjectMap ?subjectMapBlank.
                   ?subjectMapBlank rr:constant ?subjectConstant.
                   ?subjectMapBlank rr:class ?class.}"""
 
+
   ###############################################################
   ###############################################################
-  ##########   QUERIES FOR TRIPLES OF OTHER FORM   ##############
+  ##########   QUERIES FOR TRIPLES OF PRECIATE MAPs   ##############
   ###############################################################
   ###############################################################
+class R2RMLObjectMapQueries(Enum):
+  typeSubjectTemplatePredicateObjectColumn = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:template ?subjectTemplate.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:column  ?columnName.}"""
+
+  typeSubjectColumnPredicateObjectColumn = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:column ?subjectColumn.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:column  ?columnName.}"""
+
+  typeSubjectColumnPredicateObjectTemplate = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:template ?subjectTemplate.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:template ?templateName.}"""
+
+  typeSubjectTemplatePredicateObjectTemplate = prefix + """
+                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
+                     ?triplesMap rr:subjectMap ?subjectMapBlank.
+                     ?subjectMapBlank rr:template ?subjectTemplate.
+                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
+                     ?logicalObjectMap rr:predicate ?predciate.
+                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
+                     ?objectMapBlank rr:template  ?templateName.}"""
+
 
 #The following queries have to be implemented and tested
 

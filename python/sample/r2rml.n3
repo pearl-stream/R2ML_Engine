@@ -32,8 +32,8 @@
         rr:class ex:Employee;
     ];
     rr:predicateObjectMap [
-        rr:predicate ex:role;
-        rr:objectMap [ rr:template "http://data.example.com/roles/{ROLE}" ];
+        rr:predicate ex:works;
+        rr:objectMap [ rr:template "http://data.example.com/university/{University}" ];
     ].
 
   <http://www.test.com/TriplesMap3>
@@ -43,8 +43,8 @@
             rr:class ex:Student;
         ];
         rr:predicateObjectMap [
-            rr:predicate ex:name;
-            rr:objectMap [ rr:column "LastName" ];
+            rr:predicate ex:firstname;
+            rr:objectMap [ rr:column "FirstName" ];
         ].
 
 <http://www.test.com/TriplesMap4>
@@ -54,8 +54,8 @@
         rr:class ex:University;
     ];
     rr:predicateObjectMap [
-        rr:predicate ex:name;
-        rr:objectMap [ rr:column "LastName" ];
+        rr:predicate ex:firstname;
+        rr:objectMap [ rr:column "FirstName" ];
     ].
 
 <http://www.test.com/TriplesMap5>
