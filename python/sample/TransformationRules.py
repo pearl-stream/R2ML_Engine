@@ -5,7 +5,7 @@ import re
 class TransformEnginee():
   def __init__(self):
       print("ConnectingToDb")
-      self.m = mysql.MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
+      self.m = mysql.MySQL("127.0.0.1", 3306, "root", "", "mysql-development")
 
   def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
       object = columnTriple.getObject()

@@ -10,7 +10,7 @@ import queries as q
 #       How to sort the statements can be a task. For not it would be enough by name/alpha-numeric
 #       Queries that are semantic similar, or by involved table, could be a way to go in the future
 ###############################################################
-class AbstractSubjectMapTriple:
+class BaseSubjectMapTriple:
 	def __init__(self, id, sql,  subject, predicate, object):
 		self.sql = sql
 		self.subject = subject
@@ -33,23 +33,23 @@ class AbstractSubjectMapTriple:
 		return str(self.id)
 
 
-class ColumnTriple(AbstractSubjectMapTriple):
+class ColumnTriple(BaseSubjectMapTriple):
 	def __init__(self, id, sql,  subject, predicate, object):
-		AbstractSubjectMapTriple.__init__(self, id,  sql, subject, predicate, object)
+		BaseSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
 		self.type = "Column"
 	def __str__(self):
-		return AbstractTriple.__str__(self)
+		return BaseSubjectMapTriple.__str__(self)
 	def __repr__(self):
-		return AbstractTriple.__repr__(self)
+		return BaseSubjectMapTriple.__repr__(self)
 
-class TemplateTriple(AbstractSubjectMapTriple):
+class TemplateTriple(BaseSubjectMapTriple):
 	def __init__(self, id, sql,  subject, predicate, object):
-		AbstractSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
+		BaseSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
 		self.type = "Template"
 	def __str__(self):
-		return AbstractTriple.__str__(self)
+		return BaseSubjectMapTriple.__str__(self)
 	def __repr__(self):
-		return AbstractTriple.__repr__(self)
+		return BaseSubjectMapTriple.__repr__(self)
 
 class AbstractColumnMapTriple:
 	def __init__(self, id, subject, predicate, object):
@@ -127,7 +127,7 @@ def executeFuctionForQueryResult(queryType, rows):
     elif queryType == 'typeQueryColumn':
         return handleSubjectMapTypeQueryColumn(rows)
 
-allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSujectMapQueries}
+allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSubjectMapQueries}
 allObjectMapStatementsDict = {query.name: query.value for query in q.R2RMLObjectMapQueries }
 allSubjectTriples = []
 subjectToColumnMap = {}

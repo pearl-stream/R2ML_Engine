@@ -4,12 +4,16 @@ from enum import Enum
 prefix = "PREFIX rr: <http://www.w3.org/ns/r2rml#>"
 
 
-class R2RMLSujectMapQueries(Enum):
+class R2RMLSubjectMapQueries(Enum):
   '''Holds queries used to parse R2RML'''
 
   ###############################################################
   ###############################################################
   #### QUERIES FOR TRIPLES OF FORM subject rdf:type class   #####
+  #### Table is to extract rr: tableName                    ####
+  #### Query is to extract rr: sqlQuery                     ####
+  #### Template is to extract rr: template                  ####
+  ###   Column is rr:colu,m                                 ####
   ###############################################################
   ###############################################################
 
