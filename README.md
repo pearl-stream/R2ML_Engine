@@ -16,7 +16,8 @@ Run following commands after installation. Always remember to activate the virtu
 4. Fill database `make fill_db`
 5. **Install new python modules with pip**. If you installed new python modules run `make freeze_env` to update the *requirements.txt*. Then upload the changed file, such that others can reproduce your state of the python environment
 6. When finished working run `deactivate` to deactivate virtual python environent
-
+7. See the code quality at: https://sonarcloud.io/dashboard?id=pearl-stream_R2ML_Engine
+8. Jira https://pearl-stream.atlassian.net/secure/RapidBoard.jspa?rapidView=1&selectedIssue=R2RML-1
 - files in `model` will be added to SQL-DB
 
 
