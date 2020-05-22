@@ -5,10 +5,9 @@ services:
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=mysql-development
+      - MYSQL_DATABASE=mysql_development
     ports:
       - 3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
     volumes:
-      - ../python/sql/fillDatabases.sql:/docker-entrypoint-initdb.d/0_init.sql
-
+      - ../python/sql/fillDatabases.sql:/docker-entrypoint-initdb.d/0_init.sql:rw

@@ -5,7 +5,7 @@ import re
 class TransformEngine():
   def __init__(self):
       print("ConnectingToDb")
-      self.m = mysql.MySQL("127.0.0.1", 3306, "root", "", "mysql-development")
+      self.m = mysql.MySQL("127.0.0.1", 3306, "root", "", "mysql_development")
 
   def transformPredicateObjectMapTriple(self, subject, columnTriple, row, nameToIndex):
       object = columnTriple.getObject()

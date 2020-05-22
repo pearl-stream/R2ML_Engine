@@ -1,7 +1,7 @@
 #This script creates and fills tables with example data
 
-CREATE DATABASE IF NOT EXISTS mysql-development;
-USE mysql-development;
+CREATE DATABASE IF NOT EXISTS mysql_development;
+USE mysql_development;
 
 #Drop tables if they exist
 DROP TABLE IF EXISTS COURSE_STUDENT;
