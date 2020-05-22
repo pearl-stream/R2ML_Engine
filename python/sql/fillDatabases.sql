@@ -79,7 +79,8 @@ INSERT INTO STUDENT (LastName, FirstName, Field, AverageGrade)
   ('Adomski', 'Adam', 'http://data.example.com/degree/Alchemy', 1.0),
   ('Berowski', 'Berta', 'http://data.example.com/degree/Business', 2.3),
   ('Christophski', 'Christoph', 'http://data.example.com/degree/Computer Science', 3.4),
-  ('Detlevski', 'Detlev', 'http://data.example.com/degree/Data Science', 4.0);
+  ('Detlevski', 'Detlev', 'http://data.example.com/degree/Data Science', 4.0),
+  ('Peterson', 'Peter', 'http://data.example.com/degree/Data Engineer', 3.0);
 
 INSERT INTO COURSE_STUDENT
   VALUES
