@@ -64,40 +64,21 @@ class R2RMLSubjectMapQueries(Enum):
   ###############################################################
 class R2RMLObjectMapQueries(Enum):
   typeSubjectTemplatePredicateObjectColumn = prefix + """
-                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
+                     SELECT ?triplesMap ?predciate ?columnName WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
-                     ?subjectMapBlank rr:template ?subjectTemplate.
-                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
-                     ?logicalObjectMap rr:predicate ?predciate.
-                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
-                     ?objectMapBlank rr:column  ?columnName.}"""
-
-  typeSubjectColumnPredicateObjectColumn = prefix + """
-                     SELECT ?triplesMap ?subjectTemplate ?predciate ?columnName WHERE {
-                     ?triplesMap rr:subjectMap ?subjectMapBlank.
-                     ?subjectMapBlank rr:column ?subjectColumn.
                      ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
                      ?logicalObjectMap rr:predicate ?predciate.
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:column  ?columnName.}"""
 
   typeSubjectColumnPredicateObjectTemplate = prefix + """
-                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
+                     SELECT ?triplesMap ?predciate ?templateName WHERE {
                      ?triplesMap rr:subjectMap ?subjectMapBlank.
-                     ?subjectMapBlank rr:template ?subjectTemplate.
                      ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
                      ?logicalObjectMap rr:predicate ?predciate.
                      ?logicalObjectMap rr:objectMap ?objectMapBlank.
                      ?objectMapBlank rr:template ?templateName.}"""
 
-  typeSubjectTemplatePredicateObjectTemplate = prefix + """
-                     SELECT ?triplesMap ?subjectTemplate ?predciate ?templateName WHERE {
-                     ?triplesMap rr:subjectMap ?subjectMapBlank.
-                     ?subjectMapBlank rr:template ?subjectTemplate.
-                     ?triplesMap rr:predicateObjectMap ?logicalObjectMap.
-                     ?logicalObjectMap rr:predicate ?predciate.
-                     ?logicalObjectMap rr:objectMap ?objectMapBlank.
-                     ?objectMapBlank rr:template  ?templateName.}"""
 
 
 #The following queries have to be implemented and tested

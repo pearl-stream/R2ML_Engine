@@ -1,17 +1,17 @@
-import tripleFromQuery as triples
+import ruleParsing as triples
 import mysql_con as mysql
 import re
 
-class TransformEnginee():
+class TransformEngine():
   def __init__(self):
       print("ConnectingToDb")
       self.m = mysql.MySQL("127.0.0.1", 3306, "root", "", "mysql-development")
 
-  def transformColumnMapTriple(self, subject, columnTriple, row, nameToIndex):
+  def transformPredicateObjectMapTriple(self, subject, columnTriple, row, nameToIndex):
       object = columnTriple.getObject()
       column = object
       template = ""
-      if isinstance(columnTriple, triples.TemplateColumnMapTriple):
+      if isinstance(columnTriple, triples.TemplatePredicateObjectTriple):
           regex = "(.*){(.*)}(.*)"
           result = re.search(regex, object)
           if result:
@@ -31,6 +31,9 @@ class TransformEnginee():
       self.m.execQuery(subjectTriple.sql)
       rows = self.m.getRows()
       nameToIndex = self.m.getColumnNameToKey()
+      column = ""
+      template = ""
+
       if isinstance(subjectTriple, triples.TemplateTriple):
           regex = "(.*){(.*)}(.*)"
           result = re.search(regex, subjectTriple.getSubject())
@@ -49,17 +52,16 @@ class TransformEnginee():
           object = subjectTriple.getObject()
           print(subject + " " + predicate + " " + str(object))
           trippleId = subjectTriple.getId()
-          if trippleId in triples.subjectToColumnMap:
-              tripleSubject = subjectTriple.getSubject()
-              matchingColumnMap  = triples.subjectToColumnMap[trippleId]
-              self.transformColumnMapTriple(subject, matchingColumnMap , row, nameToIndex)
+          if trippleId in triples.mappingRuleToColumnMap:
+              matchingColumnMap  = triples.mappingRuleToColumnMap[trippleId]
+              self.transformPredicateObjectMapTriple(subject, matchingColumnMap , row, nameToIndex)
 
   def transform(self, abstractTriple):
       if isinstance(abstractTriple, triples.ColumnTriple) or isinstance(abstractTriple, triples.TemplateTriple):
           self.transformSubjectMapTriple(abstractTriple)
 
 print("Starting the execution of SubjectMap translations")
-ts = TransformEnginee()
+ts = TransformEngine()
 print("Connection Done")
 triples.setup()
 print("Finished translating Sparql rules into classes")

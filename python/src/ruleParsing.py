@@ -10,7 +10,7 @@ import queries as q
 #       How to sort the statements can be a task. For not it would be enough by name/alpha-numeric
 #       Queries that are semantic similar, or by involved table, could be a way to go in the future
 ###############################################################
-class BaseSubjectMapTriple:
+class AbstractSubjectMapTriple:
 	def __init__(self, id, sql,  subject, predicate, object):
 		self.sql = sql
 		self.subject = subject
@@ -33,27 +33,26 @@ class BaseSubjectMapTriple:
 		return str(self.id)
 
 
-class ColumnTriple(BaseSubjectMapTriple):
+class ColumnTriple(AbstractSubjectMapTriple):
 	def __init__(self, id, sql,  subject, predicate, object):
-		BaseSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
+		AbstractSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
 		self.type = "Column"
 	def __str__(self):
-		return BaseSubjectMapTriple.__str__(self)
+		return AbstractSubjectMapTriple.__str__(self)
 	def __repr__(self):
-		return BaseSubjectMapTriple.__repr__(self)
+		return AbstractSubjectMapTriple.__repr__(self)
 
-class TemplateTriple(BaseSubjectMapTriple):
+class TemplateTriple(AbstractSubjectMapTriple):
 	def __init__(self, id, sql,  subject, predicate, object):
-		BaseSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
+		AbstractSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
 		self.type = "Template"
 	def __str__(self):
-		return BaseSubjectMapTriple.__str__(self)
+		return AbstractSubjectMapTriple.__str__(self)
 	def __repr__(self):
-		return BaseSubjectMapTriple.__repr__(self)
+		return AbstractSubjectMapTriple.__repr__(self)
 
-class AbstractColumnMapTriple:
-	def __init__(self, id, subject, predicate, object):
-		self.subject = subject
+class AbstractPredicateObjectTriple:
+	def __init__(self, id, predicate, object):
 		self.object = object
 		self.predicate = predicate
 		self.id = id
@@ -63,18 +62,16 @@ class AbstractColumnMapTriple:
 		return str(self.predicate)
 	def getObject(self):
 		return str(self.object)
-	def getSubject(self):
-		return self.subject
 
-class ColumnColumnMapTriple(AbstractColumnMapTriple):
-	def __init__(self, id, key, predicate, object):
-		AbstractColumnMapTriple.__init__(self, id, key, predicate, object)
+class ColumnPredicateObjectTriple(AbstractPredicateObjectTriple):
+	def __init__(self, id, predicate, object):
+		AbstractPredicateObjectTriple.__init__(self, id, predicate, object)
 		self.type = "ColumnMap"
 	def getType(self):
 		return self.type
-class TemplateColumnMapTriple(AbstractColumnMapTriple):
-	def __init__(self, id, key, predicate, object):
-		AbstractColumnMapTriple.__init__(self, id, key, predicate, object)
+class TemplatePredicateObjectTriple(AbstractPredicateObjectTriple):
+	def __init__(self, id, predicate, object):
+		AbstractPredicateObjectTriple.__init__(self, id, predicate, object)
 		self.type = "TemplateMap"
 	def getType(self):
 		return self.type
@@ -130,7 +127,7 @@ def executeFuctionForQueryResult(queryType, rows):
 allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSubjectMapQueries}
 allObjectMapStatementsDict = {query.name: query.value for query in q.R2RMLObjectMapQueries }
 allSubjectTriples = []
-subjectToColumnMap = {}
+mappingRuleToColumnMap = {}
 #print(allTabelStatementsDict)
 #allTabelStatementsDict = {'typeTableTemplate' : q.R2RMLqueries.typeTableTemplate.value, 'typeQueryTemplate' : q.R2RMLqueries.typeQueryTemplate.value}
 
@@ -146,20 +143,19 @@ def createAllSubjectTriples():
 
 # That has to be changed to map by tripleMapId. Otherwise a missmatch
 def createAllColumnTriples():
-	global subjectToColumnMap
+	global mappingRuleToColumnMap
 	for key in allObjectMapStatementsDict:
 		sparql = allObjectMapStatementsDict[key]
 		rows = exeucteSparqlQuery(sparql)
-		for (id, subjectTemplate, predicate, column) in rows:
+		for (id, predicate, column) in rows:
 			if key.find("ObjectTemplate") > 0:
-				columnTriple = TemplateColumnMapTriple(id, subjectTemplate, predicate, column)
+				columnTriple = TemplatePredicateObjectTriple(id, predicate, column)
 			elif key.find("ObjectColumn") > 0: # ObjectColumn
-				columnTriple = ColumnColumnMapTriple(id, subjectTemplate, predicate, column)
+				columnTriple = ColumnPredicateObjectTriple(id, predicate, column)
 			else:
 				print("Not defined query is right now iterated. Please adapt query")
 				break
-			subjectKey = columnTriple.getKey()
-			subjectToColumnMap[columnTriple.getKey()] = columnTriple
+			mappingRuleToColumnMap[columnTriple.getKey()] = columnTriple
 
 def setup():
 	global graph
