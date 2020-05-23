@@ -10,6 +10,15 @@ import queries as q
 #       How to sort the statements can be a task. For not it would be enough by name/alpha-numeric
 #       Queries that are semantic similar, or by involved table, could be a way to go in the future
 ###############################################################
+
+
+rdfType="rdf:type"
+allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSubjectMapQueries}
+allObjectMapStatementsDict = {query.name: query.value for query in q.R2RMLObjectMapQueries }
+allSubjectTriples = []
+mappingRuleToColumnMap = {}
+
+
 class AbstractSubjectMapTriple:
 	def __init__(self, id, sql,  subject, predicate, object):
 		self.sql = sql
@@ -76,6 +85,7 @@ class TemplatePredicateObjectTriple(AbstractPredicateObjectTriple):
 	def getType(self):
 		return self.type
 
+
 def exeucteSparqlQuery(sparqlQuery):
     #Create rdf graph and load file to graph
     global graph
@@ -83,34 +93,38 @@ def exeucteSparqlQuery(sparqlQuery):
     return result
 #?tableName ?subjectTemplate ?class
 def handleSubjectMapTypeTableTemplate(sparqlResult):
+    global rdfType
     triple_list = []
     for (id, tableName, template, class_n) in sparqlResult:
         sqlTable = "select * from " + tableName
-        t_n = TemplateTriple(id, sqlTable, template,  "rdf:type", class_n)
+        t_n = TemplateTriple(id, sqlTable, template,  rdfType, class_n)
         triple_list.append(t_n)
     return triple_list
 
 #?tableName ?subjectColumn ?class
 def handleSubjectMapTypeTableColumn(sparqlResult):
+    global rdfType
     triple_list = []
     for (id, tableName, subjectColumn, class_n) in sparqlResult:
         sqlTable = "select * from " + tableName
-        t_n = ColumnTriple(id, sqlTable, subjectColumn,  "rdf:type", class_n)
+        t_n = ColumnTriple(id, sqlTable, subjectColumn,  rdfType, class_n)
         triple_list.append(t_n)
     return triple_list
 
 def handleSubjectMapTypeQueryTemplate(sparqlResult):
+    global rdfType
     triple_list = []
     for (id, sqlquery, template, class_n) in sparqlResult:
-        t_n = TemplateTriple(id, sqlquery, template,  "rdf:type", class_n)
+        t_n = TemplateTriple(id, sqlquery, template,  rdfType, class_n)
         triple_list.append(t_n)
     return triple_list
 
 # ?sqlQuery ?subjectColumn ?class
 def handleSubjectMapTypeQueryColumn(sparqlResult):
+    global rdfType
     triple_list = []
     for (id, sqlQuery, subjectColumn, class_n) in sparqlResult:
-        t_n = ColumnTriple(id, sqlQuery, subjectColumn,  "rdf:type", class_n)
+        t_n = ColumnTriple(id, sqlQuery, subjectColumn,  rdfType, class_n)
         triple_list.append(t_n)
     return triple_list
 
@@ -123,13 +137,6 @@ def executeFuctionForQueryResult(queryType, rows):
         return handleSubjectMapTypeQueryTemplate(rows)
     elif queryType == 'typeQueryColumn':
         return handleSubjectMapTypeQueryColumn(rows)
-
-allSubjectMapStatementsDict = {query.name: query.value for query in q.R2RMLSubjectMapQueries}
-allObjectMapStatementsDict = {query.name: query.value for query in q.R2RMLObjectMapQueries }
-allSubjectTriples = []
-mappingRuleToColumnMap = {}
-#print(allTabelStatementsDict)
-#allTabelStatementsDict = {'typeTableTemplate' : q.R2RMLqueries.typeTableTemplate.value, 'typeQueryTemplate' : q.R2RMLqueries.typeQueryTemplate.value}
 
 def createAllSubjectTriples():
     global allSubjectTriples

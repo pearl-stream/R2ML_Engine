@@ -27,8 +27,6 @@ class MySQL():
                 print(err)
 
     def translateRowsToKeyValue(self, cursor):
-        num_fields = len(cursor.description)
-        i = 0
         field_to_index_map = {cursor.description[i][0] : i for i in range(len(cursor.description))}
         return field_to_index_map
 
@@ -47,8 +45,3 @@ class MySQL():
         return self.cache[1]
     def getColumnNameToKey(self):
         return self.cache[2]
-#m = MySQL("192.168.99.100", 3306, "root", "", "mysql-development")
-#m.execQuery("select * from student")
-#rows = m.getRows()
-#for row in rows:
-#    print(row)
