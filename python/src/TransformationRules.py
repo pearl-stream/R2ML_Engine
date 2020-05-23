@@ -63,7 +63,7 @@ class TransformEngine():
 print("Starting the execution of SubjectMap translations")
 ts = TransformEngine()
 print("Connection Done")
-triples.setup()
+triples.setup("r2rml.n3")
 print("Finished translating Sparql rules into classes")
 for x in triples.allSubjectTriples:
     ts.transform(x)

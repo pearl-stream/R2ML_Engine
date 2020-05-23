@@ -164,9 +164,9 @@ def createAllColumnTriples():
 				break
 			mappingRuleToColumnMap[columnTriple.getKey()] = columnTriple
 
-def setup():
+def setup(file):
 	global graph
 	graph = rdflib.Graph()
-	graph.load("r2rml.n3", format="n3")
+	graph.load(file, format="n3")
 	createAllSubjectTriples()
 	createAllColumnTriples()
