@@ -141,3 +141,8 @@ Desktop.ini
 # Our Virtualenv folder
 #####################
 r2ml/
+
+#####################
+# The documentation out folder
+#####################
+_build/
