@@ -5,38 +5,30 @@ class AbstractSubjectMap:
     """A class that is the parent class of all subject map details
 
     """
-    def __init__(self, id, sql,  subject, predicate, object):
-        self.sql = sql
-        self.subject = subject
-        self.predicate = predicate
-        self.object = object
-        self.id = id
+    def __init__(self, subject_placeholder, class_value):
+        self.subject_placeholder = subject_placeholder
+        self.predicate = "rdf:type"
+        self.class_value = class_value
 
     def __str__(self):
-        return  ": " + self.sql + " " + self.subject + " " + self.predicate + " " + self.object
+        return  ": " + self.subject_placeholder + " " + self.predicate + " " + self.class_value
 
     def __repr__(self):
-        return ": " + self.sql + " " + self.subject + " " + self.predicate + " " + self.object
+        return ": " + self.subject_placeholder + " " + self.predicate + " " + self.class_value
 
     def get_object(self):
-        return self.object
+        return self.class_value
 
     def get_predicate(self):
         return self.predicate
 
     def get_subject(self):
-        return str(self.subject)
-
-    def get_sql(self):
-        return self.sql
-
-    def get_id(self):
-        return str(self.id)
+        return str(self.subject_placeholder)
 
 
 class ColumnSubjectMap(AbstractSubjectMap):
-    def __init__(self, id, sql,  subject, predicate, object):
-        AbstractSubjectMap.__init__(self, id, sql, subject, predicate, object)
+    def __init__(self, subject_placeholder, class_value):
+        AbstractSubjectMap.__init__(self, subject_placeholder, class_value)
         self.type = "Column"
 
     def __str__(self):
@@ -47,8 +39,8 @@ class ColumnSubjectMap(AbstractSubjectMap):
 
 
 class TemplateSubjectMap(AbstractSubjectMap):
-    def __init__(self, id, sql,  subject, predicate, object):
-        AbstractSubjectMapTriple.__init__(self, id, sql, subject, predicate, object)
+    def __init__(self, subject_placeholder, class_value):
+        AbstractSubjectMap.__init__(self, subject_placeholder, class_value)
         self.type = "Template"
 
     def __str__(self):
