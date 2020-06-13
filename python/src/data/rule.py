@@ -6,11 +6,11 @@ from .SubjectMap import TemplateSubjectMap
 
 
 class Rule:
-    def __init__(self, rule_id, sql):
+    def __init__(self, rule_id):
         self.subject_map = None
         self.predicate_object_maps = []
         self.rule_id = rule_id
-        self.sql_statement = sql
+        self.sql_statement = None
 
     def create_subject_map(self, subject_map):
         if not isinstance(subject_map, AbstractSubjectMap):
@@ -22,6 +22,14 @@ class Rule:
             self.subject_map = TemplateSubjectMap(subject_placeholder, class_value)
         elif rr_type == "rr:column":
             self.subject_map = ColumnSubjectMap(subject_placeholder, class_value)
+
+    def add_logical_table(self, type, value):
+        if type == "rr:tableName":
+            self.sql_statement = "Select * from " + value
+        elif type == "rr:sqlQuery":
+            self.sql_statement = value
+        else:
+            print("This is an unsported type")
 
     def create_subject_map_with_template(self, subject, predicate, class_value):
         pass
