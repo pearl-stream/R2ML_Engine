@@ -3,7 +3,8 @@
 from .SubjectMap import AbstractSubjectMap
 from .SubjectMap import ColumnSubjectMap
 from .SubjectMap import TemplateSubjectMap
-
+from .PredicateObjectMap import ColumnPredicateObjectMap
+from .PredicateObjectMap import TemplatePredicateObjectMap
 
 class Rule:
     """
@@ -44,8 +45,12 @@ class Rule:
             pass
         return self.subject_map.get_triple()
 
-    def create_subject_map_with_template(self, subject, predicate, class_value):
-        pass
-
-    def add_predicate_object_map(self):
-        pass
+    def add_predicate_object_map(self, predicate, type_object_map, object_map):
+        if type_object_map == "rr:template":
+            predicate_map = TemplatePredicateObjectMap(predicate, object_map)
+        elif type_object_map == "rr:column":
+            predicate_map = ColumnPredicateObjectMap(predicate, object_map)
+        else:
+            print("This type " + type_object_map + " is not implemented yet")
+            pass
+        self.predicate_object_maps.append(predicate_map)
