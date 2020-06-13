@@ -19,19 +19,16 @@ class Rule:
         self.predicate_object_maps = []
         self.rule_id = rule_id
         self.sql_statement = None
+        self.iter_predicate = 0
 
-    def create_subject_map(self, subject_map):
-        if not isinstance(subject_map, AbstractSubjectMap):
-            pass
-        self.subject_map = subject_map
-
-    def create_subject_map(self, rr_type, subject_placeholder, class_value):
-        if rr_type == "rr:template":
-            self.subject_map = TemplateSubjectMap(subject_placeholder, class_value)
-        elif rr_type == "rr:column":
-            self.subject_map = ColumnSubjectMap(subject_placeholder, class_value)
+ #   def create_subject_map(self, subject_map):
+#       if isinstance(subject_map, AbstractSubjectMap):
+#            self.subject_map = subject_map
 
     def add_logical_table(self, type, value):
+        """
+            This method adds the representation of the logicalTable to the rule and  transforms it into a sql statement
+         """
         if type == "rr:tableName":
             self.sql_statement = "Select * from " + value
         elif type == "rr:sqlQuery":
@@ -39,13 +36,33 @@ class Rule:
         else:
             print("This is an unsupported type")
 
+    def create_subject_map(self, rr_type, subject_placeholder, class_value):
+        """
+            This method stores the subject map values of the r2ml rule in form of an object of type AbstractSubjectMap
+         """
+        if rr_type == "rr:template":
+            self.subject_map = TemplateSubjectMap(subject_placeholder, class_value)
+        elif rr_type == "rr:column":
+            self.subject_map = ColumnSubjectMap(subject_placeholder, class_value)
+
     def get_subject_map(self):
+        """
+            This method simply returns the subject map of this rule
+         """
         if not isinstance(self.subject_map, AbstractSubjectMap):
             print("Please set the subject map first")
             pass
         return self.subject_map.get_triple()
 
     def add_predicate_object_map(self, predicate, type_object_map, object_map):
+        """
+            This method adds a predicate object representation to this rule.
+            A predicate object element is represented by a AbstractPredicateObjectMa class
+
+            :param predicate: the actual rr:predicate object of the r2ml rule
+            :param type_object_map: Defines if we deal with a rr:template or rr:column  element in the object map
+            :param object_map: the actual object referenced  by the type_object_map
+         """
         if type_object_map == "rr:template":
             predicate_map = TemplatePredicateObjectMap(predicate, object_map)
         elif type_object_map == "rr:column":
@@ -54,3 +71,18 @@ class Rule:
             print("This type " + type_object_map + " is not implemented yet")
             pass
         self.predicate_object_maps.append(predicate_map)
+
+    def next_predicate_map(self):
+        """
+            Return as tuple the content of the next predicate object in the rule.
+            In fact, the tuple consists of the predicate and object_map of the predicateObjectMap definition
+        """
+        r_value = None
+        if self.iter_predicate > len(self.predicate_object_maps):
+            self.iter_predicate += 1
+            predicate_object_map = self.predicate_object_maps[self.iter_predicate]
+            r_value = predicate_object_map.get_tuple()
+        return r_value
+
+    def reset_predicate_map_iterator(self, value=0):
+        self.iter_predicate=value

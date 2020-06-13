@@ -2,8 +2,8 @@
 
 
 class AbstractSubjectMap:
-    """A class that is the parent class of all subject map details
-
+    """
+    A class that is the parent class of all subject map details
     """
     def __init__(self, subject_placeholder, class_value):
         self.subject_placeholder = subject_placeholder
@@ -30,6 +30,10 @@ class AbstractSubjectMap:
 
 
 class ColumnSubjectMap(AbstractSubjectMap):
+    """
+    This class defines a representation of a subjectMap that uses the rr:column predicate to define the subject of the
+    created rdf triple by the r2ml rule
+    """
     def __init__(self, subject_placeholder, class_value):
         AbstractSubjectMap.__init__(self, subject_placeholder, class_value)
         self.type = "Column"
@@ -42,6 +46,10 @@ class ColumnSubjectMap(AbstractSubjectMap):
 
 
 class TemplateSubjectMap(AbstractSubjectMap):
+    """
+    This class defines a representation of a subjectMap that uses the rr:template predicate to define the subject of the
+    created rdf triple by the r2ml rule
+    """
     def __init__(self, subject_placeholder, class_value):
         AbstractSubjectMap.__init__(self, subject_placeholder, class_value)
         self.type = "Template"
