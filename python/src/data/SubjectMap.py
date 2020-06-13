@@ -25,6 +25,9 @@ class AbstractSubjectMap:
     def get_subject(self):
         return str(self.subject_placeholder)
 
+    def get_triple(self):
+        return self.subject_placeholder, self.predicate, self.class_value
+
 
 class ColumnSubjectMap(AbstractSubjectMap):
     def __init__(self, subject_placeholder, class_value):
