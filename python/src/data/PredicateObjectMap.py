@@ -14,7 +14,7 @@ class AbstractPredicateObjectMap:
         return str(self.object_map)
 
     def get_tuple(self):
-        return self.object_map, self.predicate
+        return self.predicate, self.object_map
 
 
 class ColumnPredicateObjectMap(AbstractPredicateObjectMap):

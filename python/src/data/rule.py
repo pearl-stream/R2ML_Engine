@@ -78,11 +78,14 @@ class Rule:
             In fact, the tuple consists of the predicate and object_map of the predicateObjectMap definition
         """
         r_value = None
-        if self.iter_predicate > len(self.predicate_object_maps):
-            self.iter_predicate += 1
+        if self.iter_predicate < len(self.predicate_object_maps):
             predicate_object_map = self.predicate_object_maps[self.iter_predicate]
             r_value = predicate_object_map.get_tuple()
+            self.iter_predicate += 1
         return r_value
 
     def reset_predicate_map_iterator(self, value=0):
         self.iter_predicate=value
+
+    def get_logical_table_sql(self):
+        return self.sql_statement
