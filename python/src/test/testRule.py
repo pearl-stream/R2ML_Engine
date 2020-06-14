@@ -30,3 +30,24 @@ class TestRule(unittest.TestCase):
         sql = rule.get_logical_table_sql()
         expected_sql = "Select * from " + table
         self.assertEqual(sql, expected_sql)
+
+    def test_create_rule_column(self):
+        rule_id = "http://www.test.com/TriplesMap4"
+        column = "University"
+        class_value = "ex:University"
+        column_template = "http://data.example.com/university/{University}"
+        predicate = "ex:works"
+
+        rule = Rule(rule_id)
+        rule.create_subject_map("rr:column", column, class_value)
+
+        s, p, o = rule.get_subject_map()
+
+        self.assertEqual(s, column)
+        self.assertEqual(p, "rdf:type")
+        self.assertEqual(o, class_value)
+
+        rule.add_predicate_object_map(predicate, "rr:template", column_template)
+        p, o = rule.next_predicate_map()
+        self.assertEqual(predicate, p)
+        self.assertEqual(column_template, o)
