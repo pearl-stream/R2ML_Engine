@@ -1,0 +1,1 @@
+java -Xmx500M -cp ./antlr-4.8-complete.jar org.antlr.v4.Tool -Dlanguage=Python3 -visitor ../python/src/antlr/r2rmlGrammar.g4 -o ../python/src/generated
